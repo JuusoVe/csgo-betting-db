@@ -37,3 +37,20 @@ ENV_SETTINGS=config.DevelopmentConfig
 SECRET_KEY=add_some_top_secret_key_here
 DATABASE_URI=postgresql://csgo-betting-db-devabcdefgh.eu-north-1.rds.amazonaws.com:5432?user=postgres&password=yourpasswordhere
 ```
+
+### Settings up a new database
+
+If using a new db for dev or any other purpose:
+
+```
+flask db migrate
+flask db upgrade
+```
+
+These will bring your db up to speed with the DB models defined in code.
+Any changes to DB models will require you to run this again. Automating this in
+deployment pipeline to be added.
+
+# TODO
+
+-Everything
