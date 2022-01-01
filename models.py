@@ -3,7 +3,7 @@ db = SQLAlchemy()
 
 class Player(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nick_name = db.Column(db.String(128), unique=False, nullable=False)
+    nickname = db.Column(db.String(128), unique=False, nullable=False)
     first_name = db.Column(db.String(128), unique=False, nullable=True)
     last_name = db.Column(db.String(128), unique=False, nullable=True)
     hltv_id = db.Column(db.Integer, unique=True, nullable=True)
