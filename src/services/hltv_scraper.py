@@ -34,16 +34,16 @@ def scrape_player(hltv_id):
     }
     return player
 
-def scrape_team(hltv_id):
+def scrape_team_players(hltv_id):
     url = base_url + 'team/' + hltv_id + "/stuff"
     # hltv returns 404 if you dont put anything after the id, but it can be anything.
-    print('scraping player from url: ' + url)
     session = HTMLSession()
     response = session.get(url)
     response.html.render()
     page = response.html.html
     soup = BeautifulSoup(page, "html.parser")
     players = soup.find("div", class_="bodyshot-team g-grid")
+    team = []
     for player in players.children:
       player_profile_url = player.get('href')
       hltv_id = parse_hltv_id_from_url(player_profile_url)
@@ -51,6 +51,5 @@ def scrape_team(hltv_id):
       title = image.get('title')
       player = parse_player_from_image_title(title)
       player['hltv_id'] = hltv_id
-      print(player)
-
-# scrape_team("4608")
+      team.append(player)
+    return team

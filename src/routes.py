@@ -1,7 +1,5 @@
 from src.app import app
-from flask import redirect, render_template, request
-from services.hltv_scraper import scrape_player, scrape_team
-
+from src.services.hltv_scraper import scrape_player, scrape_team
 
 @app.route("/")
 def index():
@@ -15,4 +13,5 @@ def handle_scrape_player(hltv_id):
 @app.route("/scrape/team/<hltv_id>")
 def handle_scrape_team(hltv_id):
     team = scrape_team(hltv_id)
+    print(team)
     return team
