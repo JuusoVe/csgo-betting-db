@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
+
 class Player(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(64), unique=False, nullable=False)
@@ -14,31 +15,33 @@ class Organization(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True, nullable=False)
 
+
 class Team (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     organization = db.Column(db.Integer, db.ForeignKey('organization.id'),
-        nullable=False)
+                             nullable=False)
     player_1_id = db.Column(db.Integer, db.ForeignKey('player.id'),
-        nullable=False)
+                            nullable=False)
     player_2_id = db.Column(db.Integer, db.ForeignKey('player.id'),
-        nullable=False)
+                            nullable=False)
     player_3_id = db.Column(db.Integer, db.ForeignKey('player.id'),
-        nullable=False)
+                            nullable=False)
     player_4_id = db.Column(db.Integer, db.ForeignKey('player.id'),
-        nullable=False)
+                            nullable=False)
     player_5_id = db.Column(db.Integer, db.ForeignKey('player.id'),
-        nullable=False)
+                            nullable=False)
     player_6_id = db.Column(db.Integer, db.ForeignKey('player.id'),
-        nullable=True)
+                            nullable=True)
+
 
 class Match(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     lan = db.Column(db.Boolean, nullable=True)
     team_1_id = db.Column(db.Integer, db.ForeignKey('team.id'),
-        nullable=False)
+                          nullable=False)
     team_2_id = db.Column(db.Integer, db.ForeignKey('team.id'),
-        nullable=False)
+                          nullable=False)
     format = db.Column(db.String(3), unique=False, nullable=True)
     map_1 = db.Column(db.String(64), unique=False, nullable=True)
     map_2 = db.Column(db.String(64), unique=False, nullable=True)

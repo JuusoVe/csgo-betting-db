@@ -4,15 +4,16 @@ from src.models import db
 app = create_app()
 app.app_context().push()
 
-def add_new(player):
-  print(player)
-  try:
-    sql = "INSERT INTO player (nickname, first_name, last_name, nick_first_last, hltv_id) VALUES (:nickname, :first_name, :last_name, :nick_first_last, :hltv_id)"
-    db.session.execute(sql, player)
-    db.session.commit()
 
-  except Exception as e:
-    print(e)
-    return False
-  print ('success')
-  return True
+def add_new(player):
+    print(player)
+    try:
+        sql = "INSERT INTO player (nickname, first_name, last_name, nick_first_last, hltv_id) VALUES (:nickname, :first_name, :last_name, :nick_first_last, :hltv_id)"
+        db.session.execute(sql, player)
+        db.session.commit()
+
+    except Exception as e:
+        print(e)
+        return False
+    print('success')
+    return True
