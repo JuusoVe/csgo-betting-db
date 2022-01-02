@@ -10,7 +10,8 @@ not publicly available otherwise.
 
 1. Make sure you have python 3 installed
 2. Go to project root and start virtual env
-   Windows
+
+Windows
 
 ```
 $venv\Scripts\activate
@@ -30,12 +31,21 @@ flask run
 
 ### Required environment variables
 
+ENV_SETTINGS: Which object from config file to use
+SECRET_KEY: A secret key.
+DATABASE_URI: DB connection URI
+UNI_API_ID: Id to Unibet API
+UNI_API_KEY: Key to Unibet API
+
 Example:
 
 ```
 ENV_SETTINGS=config.DevelopmentConfig
 SECRET_KEY=add_some_top_secret_key_here
 DATABASE_URI=postgresql://csgo-betting-db-devabcdefgh.eu-north-1.rds.amazonaws.com:5432?user=postgres&password=yourpasswordhere
+UNI_API_ID=ca12345
+UNI_API_KEY=12345qwertyuiop
+
 ```
 
 ### Settings up a new database
