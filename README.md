@@ -24,9 +24,18 @@ $source venv/bin/activate
 ```
 
 3. Run the flask app (inside the virtual env)
+Windows
+```
+$set FLASK_ENV=development
+$flask run
+```
+
+
+Unix-based
 
 ```
-flask run
+$export FLASK_ENV=development
+$flask run
 ```
 
 ### Required environment variables
