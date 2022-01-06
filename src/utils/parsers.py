@@ -32,5 +32,5 @@ def parse_nick_first_last(player):
 
 def parse_hltv_id_from_url(url):
     id_slash_nick = url[8:]
-    id = id_slash_nick[0:id_slash_nick.find('/')]
-    return id
+    hltv_id = id_slash_nick[0:id_slash_nick.find('/')]
+    return hltv_id
