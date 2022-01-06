@@ -1,4 +1,7 @@
 {
   "python.pythonPath": "c:\\anaconda3\\python.exe",
-  "python.analysis.extraPaths": ["./utils"]
+  "python.analysis.extraPaths": ["./utils"],
+  "editor.defaultFormatter": "ms-python.python",
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true
 }
