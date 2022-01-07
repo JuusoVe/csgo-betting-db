@@ -34,3 +34,21 @@ def parse_hltv_id_from_url(url):
     id_slash_nick = url[8:]
     hltv_id = id_slash_nick[0:id_slash_nick.find('/')]
     return hltv_id
+
+
+def format_for_db(string):
+    return string.isalnum().lower()
+
+
+def parse_coach_form_link_element(elements):
+    first_name_element = elements[1]
+    first_name = str(first_name_element).strip().lower()
+    last_name_element = elements[3]
+    last_name = str(last_name_element).strip().lower()
+    nickname_element = elements[2]
+    nickname_string = str(nickname_element)
+    nickname = nickname_string.split("'")[1]
+    coach = {"first_name": first_name,
+             "last_name": last_name,
+             "nickname": nickname}
+    return coach
