@@ -30,12 +30,12 @@ $flask run
 
 ### Required environment variables
 
-ENV_SETTINGS: Which object from config file to use
-SECRET_KEY: A secret key.
-DATABASE_URI: DB connection URI
-UNI_API_ID: Id to Unibet API
-UNI_API_KEY: Key to Unibet API
-FLASK_ENV: Flask mode to run
+ENV_SETTINGS: Which object from config file to use.  
+SECRET_KEY: A secret key.  
+DATABASE_URI: DB connection URI.  
+UNI_API_ID: Id to Unibet API.  
+UNI_API_KEY: Key to Unibet API.  
+FLASK_ENV: Flask mode to run.  
 
 Example:
 
