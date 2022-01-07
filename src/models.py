@@ -18,6 +18,11 @@ class Player(db.Model):
 class Organization(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True, nullable=False)
+    alias_1 = db.Column(db.String(64), unique=True, nullable=True)
+    alias_2 = db.Column(db.String(64), unique=True, nullable=True)
+    current_team_id = db.Column(db.Integer, db.ForeignKey('team.id'),
+                                nullable=False)
+    hltv_id = db.Column(db.Integer, unique=True, nullable=True)
     created_at = db.Column(db.DateTime(timezone=True),
                            server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
@@ -25,9 +30,8 @@ class Organization(db.Model):
 
 class Team (db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
-    organization = db.Column(db.Integer, db.ForeignKey('organization.id'),
-                             nullable=False)
+    # This mostly exists to efficiently check that we don't duplicate combinations of players
+    team_nicknames = db.Column(db.String(128), unique=True, nullable=False)
     player_1_id = db.Column(db.Integer, db.ForeignKey('player.id'),
                             nullable=False)
     player_2_id = db.Column(db.Integer, db.ForeignKey('player.id'),
