@@ -1,4 +1,6 @@
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 db = SQLAlchemy()
 
 
@@ -9,11 +11,17 @@ class Player(db.Model):
     last_name = db.Column(db.String(64), unique=False, nullable=True)
     nick_first_last = db.Column(db.String(128), unique=True, nullable=False)
     hltv_id = db.Column(db.Integer, unique=True, nullable=True)
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
 
 class Organization(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
 
 class Team (db.Model):
@@ -31,8 +39,11 @@ class Team (db.Model):
                             nullable=False)
     player_5_id = db.Column(db.Integer, db.ForeignKey('player.id'),
                             nullable=False)
-    player_6_id = db.Column(db.Integer, db.ForeignKey('player.id'),
-                            nullable=True)
+    coach = db.Column(db.Integer, db.ForeignKey('player.id'),
+                      nullable=True)
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
 
 class Match(db.Model):
@@ -54,3 +65,6 @@ class Match(db.Model):
     map_4_winner = db.Column(db.Integer, nullable=True)
     map_5_winner = db.Column(db.Integer, nullable=True)
     match_winner = db.Column(db.Integer, nullable=True)
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
