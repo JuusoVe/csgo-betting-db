@@ -9,34 +9,24 @@ not publicly available otherwise.
 ## Settings up local dev env
 
 1. Make sure you have python 3 installed
-2. Go to project root and start virtual env
+2. Go to project root and start virtual env and run flask inside it
 
 Windows
 
 ```
 $venv\Scripts\activate
+$cd src
+$flask run
 ```
 
 Unix-based
 
 ```
 $source venv/bin/activate
-```
-
-3. Run the flask app (inside the virtual env)
-Windows
-```
-$set FLASK_ENV=development
+$cd src
 $flask run
 ```
 
-
-Unix-based
-
-```
-$export FLASK_ENV=development
-$flask run
-```
 
 ### Required environment variables
 
@@ -45,6 +35,7 @@ SECRET_KEY: A secret key.
 DATABASE_URI: DB connection URI
 UNI_API_ID: Id to Unibet API
 UNI_API_KEY: Key to Unibet API
+FLASK_ENV: Flask mode to run
 
 Example:
 
@@ -54,6 +45,7 @@ SECRET_KEY=add_some_top_secret_key_here
 DATABASE_URI=postgresql://csgo-betting-db-devabcdefgh.eu-north-1.rds.amazonaws.com:5432?user=postgres&password=yourpasswordhere
 UNI_API_ID=ca12345
 UNI_API_KEY=12345qwertyuiop
+FLASK_ENV=development
 
 ```
 
