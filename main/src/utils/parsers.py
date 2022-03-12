@@ -15,11 +15,11 @@ def parse_nickname(nickname):
 
 def parse_player_from_image_title(title):
     title.strip()
-    title_arr = title.split(" ")
+    title_list = title.split(" ")
     player = {
-        "first_name": title_arr[0],
-        "last_name": title_arr[2],
-        "nickname": title_arr[1].strip("'"),
+        "first_name": title_list[0],
+        "last_name": title_list[2],
+        "nickname": title_list[1].strip("'"),
     }
     nick_first_last = parse_nick_first_last(player)
     player["nick_first_last"] = nick_first_last
@@ -48,7 +48,9 @@ def parse_coach_form_link_element(elements):
     nickname_element = elements[2]
     nickname_string = str(nickname_element)
     nickname = nickname_string.split("'")[1]
-    coach = {"first_name": first_name,
-             "last_name": last_name,
-             "nickname": nickname}
+    coach = {
+        "first_name": first_name,
+        "last_name": last_name,
+        "nickname": nickname
+    }
     return coach

@@ -1,7 +1,7 @@
 from os import getenv
 
 
-class Config(object):
+class FlaskConfig(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
@@ -10,14 +10,14 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-class ProductionConfig(Config):
+class FlaskProductionConfig(FlaskConfig):
     DEBUG = False
 
 
-class DevelopmentConfig(Config):
+class FlaskDevelopmentConfig(FlaskConfig):
     DEVELOPMENT = True
     DEBUG = True
 
 
-class TestingConfig(Config):
+class FlaskTestingConfig(FlaskConfig):
     TESTING = True

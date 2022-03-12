@@ -1,12 +1,17 @@
 {
-  "python.pythonPath": "c:\\anaconda3\\python.exe",
-  "python.analysis.extraPaths": ["./utils"],
-  "editor.defaultFormatter": "ms-python.python",
+  "python.pythonPath": "C:/Users/juuso/csgo-betting-db/src",
+  // "python.analysis.extraPaths": ["./utils"],
   "python.linting.pylintEnabled": true,
-  "python.linting.enabled": true,
   "python.linting.pylintArgs": [
     "--load-plugins",
     "pylint_flask_sqlalchemy",
-    "pylint_flask",
-  ]
+    "pylint_flask"
+  ],
+  "python.linting.enabled": true,
+  "python.formatting.provider": "black",
+  "editor.defaultFormatter": "fnando.linter",
+  "editor.formatOnSave": true,
+  // "python.analysis.diagnosticSeverityOverrides": {
+  //   "reportMissingImports": "none"
+  // }
 }
