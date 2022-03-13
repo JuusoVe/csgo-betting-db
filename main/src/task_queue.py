@@ -6,13 +6,11 @@ import uuid
 sqs = boto3.client(
     "sqs",
     region_name="eu-central-1",
-    aws_access_key_id="AKIAQH4F5HTKJXT6VQWK",
-    aws_secret_access_key="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",
+    aws_access_key_id=getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=getenv("AWS_ACCESS_SECRET_KEYE"),
 )
 
-queue_url = (
-    "https://sqs.eu-central-1.amazonaws.com/016923835604/csgo-betting-db-tasks.fifo"
-)
+queue_url = getenv(MESSAGE_QUEUE_URL)
 
 
 async def add_scrape_to_queue(resource, id):
