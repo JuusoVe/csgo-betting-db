@@ -63,6 +63,34 @@ These will bring your db up to speed with the DB models defined in code.
 Any changes to DB models will require you to run migrade and upgdate again. Automating this in
 deployment pipeline to be added.
 
+### Deploying
+
+These scripts assume you have aws cli and lightsail plugin for it installed and configured.
+
+Creating a container service in lightsail 
+```
+aws lightsail create-container-service --service-name csgo-betting-db-api \ --power small --scale 1
+```
+
+Deploying a container to the service
+
+```
+aws lightsail get-container-services --service-name csgo-betting-db-api
+```
+
+Deplying code to the container
+
+```
+aws lightsail create-container-service-deployment --service-name csgo-betting-db-api --containers file://containers.json --public-endpoint file://public-endpoint.json
+```
+
+Polling for deployment status
+```
+$ aws lightsail get-container-services --service-name csgo-betting-db-api
+
+```
+
+
 # TODO
 
 -Everything
