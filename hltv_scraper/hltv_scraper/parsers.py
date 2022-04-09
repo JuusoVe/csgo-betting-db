@@ -1,4 +1,4 @@
-def parse_player_from_image_title_to_player_dict(title):
+def parse_player_image_title_to_player_dict(title):
     """
     Parsing function to extract a player object from a image title on hltv team page
 
@@ -15,7 +15,7 @@ def parse_player_from_image_title_to_player_dict(title):
         "last_name": title_list[2],
         "nickname": title_list[1].strip("'"),
     }
-    player["nick_first_last"] = parse_nick_first_last(player)
+    player["nick_first_last"] = parse_player_dict_to_nickfirstlast(player)
     return player
 
 
@@ -25,9 +25,9 @@ def parse_player_dict_to_nickfirstlast(player):
     into a nickfirstlast to be used as a pseudo-unique identifier.
 
     Parameters:
-      player (dict): 
+      player (dict): Player
 
     Returns:
-      nickfirstlast (str): Concat of nickname, first_name and last_name in lower case.
+      nickfirstlast (str): Concat of nickname, first_name and last_name, all in lower case.
     """
     return player["nickname"].lower() + player["first_name"].lower() + player["last_name"].lower()

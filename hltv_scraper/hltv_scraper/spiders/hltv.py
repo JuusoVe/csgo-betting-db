@@ -1,6 +1,6 @@
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
-from parsers import parse_player_from_image_title_to_player_dict
+from hltv_scraper.parsers import parse_player_image_title_to_player_dict
 
 
 class HLTVSpider(CrawlSpider):
@@ -12,9 +12,14 @@ class HLTVSpider(CrawlSpider):
         return self.parse_page(response)
 
     def parse_page(self, response):
-        image_elements = response.css('.bodyshot-team-img::attr(title)').getall()
+        image_title_strings = response.css('.bodyshot-team-img::attr(title)').getall()
+        players = []
+        for title_string in image_title_strings:
+          players.append(parse_player_image_title_to_player_dict(title_string))
+
+
         return {
-            "result": image_elements,
+            "result": players,
         }
 
 
