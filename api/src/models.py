@@ -5,11 +5,12 @@ from app import db
 class Player(db.Model):
     """Database model for a player"""
 
-    id = db.Column(db.Integer, primary_key=True)
+    nick_first_last = db.Column(
+        db.String(128), primary_key=True, unique=True, nullable=False
+    )
     nickname = db.Column(db.String(128), unique=False, nullable=False)
     first_name = db.Column(db.String(128), unique=False, nullable=True)
     last_name = db.Column(db.String(128), unique=False, nullable=True)
-    nick_first_last = db.Column(db.String(128), unique=True, nullable=False)
     hltv_id = db.Column(db.Integer, unique=True, nullable=True)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
