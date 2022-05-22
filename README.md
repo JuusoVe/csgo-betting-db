@@ -8,6 +8,8 @@ not publicly available otherwise.
 
 ### Required environment variables
 
+TODO: Split these into modules' READMEs
+
 ENV_SETTINGS: Which object from config file to use.  
 SECRET_KEY: A secret key.  
 DATABASE_URI: DB connection URI.  

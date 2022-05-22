@@ -13,10 +13,10 @@ def handle_request():
         print("in post player")
         data = request.get_json()
         print(data)
-        # update(data)
+        update(data)
         return "Player inserted."
     if request.method == "GET":
-        # players = get_all("player")
+        players = get_all("player")
         print("in get:")
         print(players)
         print(type(players))
