@@ -6,28 +6,6 @@ This is a monorepo for a study and hobby project that collects betting-related d
 esports game Counter-Strike: Global Offensive from multiple sources and combines it into insights
 not publicly available otherwise.
 
-## Settings up local dev env
-
-1. Make sure you have python 3 installed
-2. Go to project root and start virtual env and run flask inside it
-
-Windows
-
-```
-$venv\Scripts\activate
-$cd src
-$flask run
-```
-
-Unix-based
-
-```
-$source venv/bin/activate
-$cd src
-$flask run
-```
-
-
 ### Required environment variables
 
 ENV_SETTINGS: Which object from config file to use.  
@@ -71,37 +49,55 @@ The flask API is hosted in a AWS Lightsail container.
 
 These scripts assume you have [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) and [lightsail plugin](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software) for it installed and configured.
 
+**Running the flask app in dev mode**
+```
+flask run
+```
+
+**Creating a docker container from the latest src**
+Requires [Docker](https://www.docker.com/get-started/) to be installed.
+```
+docker build -t flask-api .
+```
+
+**Running the Docker image**
+Replace the latter port with something else in case it's reserved.
+```
+docker run -p 5000:5000 flask-api
+```
+I recommend running the app locally only if testing changes packages etc. Otherwise just run the flask app in dev mode to benefit from hot reload on code changes.
+
 
 **Creating a container service in lightsail**
-
 ```
 aws lightsail create-container-service --service-name csgo-betting-db-api --power nano --scale 1
 ```
 
 **Pushing an image to the container**
-
 ```
 aws lightsail push-container-image --region eu-central-1 --service-name csgo-betting-db-api --label v1 --image flask-app:latest
 ```
 If you create a new version, change the label and then replace image reference in containers.json with the image reference string you get in the response of this command.
 
-**Deplying code to the container**
 
+**Deplying code to the container**
 ```
 aws lightsail create-container-service-deployment --service-name csgo-betting-db-api --containers file://containers.json --public-endpoint file://public-endpoint.json
 ```
 
-**Polling for deployment status**
+**Polling for container serveice status**
 ```
-$ aws lightsail get-container-services --service-name csgo-betting-db-api
+aws lightsail get-container-services --service-name csgo-betting-db-api
 
 ```
+Possible responses include a state in the JSON, to avoid confusion: "READY" means nothing is running in the service but it is ready to accept deployments. "RUNNING" means the deployment was successfull and the app has succesfully started.
 
 
-# TODO
-
+## TODO
 - CI/CD Pipeline
 - Infra as code set up
 - All tests
 - Unibet fetching module
+- Scheduling
+- hltv_scraper module hosting
 - Web UI

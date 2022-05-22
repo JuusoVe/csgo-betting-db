@@ -13,7 +13,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy the content of the local directory to the working directory
-COPY . .
+COPY ./src .
 
 # Run the app.py file
 CMD [ "python", "./app.py" ]

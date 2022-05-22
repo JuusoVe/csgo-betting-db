@@ -16,14 +16,3 @@ async def schedule_scrape(resource, id):
     await add_scrape_to_queue(resource, id)
     return "Success."
 
-
-# def add_job(hltv_id):
-#     scheduler.add_job(
-#         id=str(uuid1()),
-#         func=scrape_org,
-#         trigger="date",
-#         run_date=datetime.datetime.now() + datetime.timedelta(seconds=2),
-#         jobstore="hltv_scraper",
-#         executor="hltv_scraper",
-#         args=[str(hltv_id)],
-#     )
