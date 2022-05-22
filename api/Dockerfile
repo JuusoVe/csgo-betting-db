@@ -1,4 +1,3 @@
-# Set base image (host OS)
 FROM python:3.8-alpine
 
 # By default, listen on port 5000
@@ -10,11 +9,11 @@ WORKDIR /app
 # Copy the dependencies file to the working directory
 COPY requirements.txt .
 
-# Install any dependencies
+# Install dependencies
 RUN pip install -r requirements.txt
 
-# Copy the content of the local src directory to the working directory
-COPY src/app.py .
+# Copy the content of the local directory to the working directory
+COPY . .
 
-# Specify the command to run on container start
+# Run the app.py file
 CMD [ "python", "./src/app.py" ]
