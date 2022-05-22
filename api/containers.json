@@ -1,6 +1,6 @@
 {
     "flask": {
-        "image": ":csgo-betting-db-api.v1.3",
+        "image": ":csgo-betting-db-api.v1.4",
         "ports": {
             "5000": "HTTP"
         }
