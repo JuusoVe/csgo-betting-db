@@ -23,7 +23,7 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker images to the ECR repo
       - docker push $REPOSITORY_URI:latest
-      - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:latest > imageDetail.json
+      - printf '[{"name":"csgo-betting-db-api","ImageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
   files:
-    - imageDetail.json
+    - imagedefinitions.json
