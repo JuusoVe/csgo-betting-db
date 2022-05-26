@@ -1,8 +1,12 @@
 {
-    "flask": {
-        "image": ":csgo-betting-db-api.v1.4",
-        "ports": {
-            "5000": "HTTP"
-        }
+  "flask": {
+    "image": ":csgo-betting-db-api.v1.8",
+    "ports": {
+      "5000": "HTTP"
+    },
+    "environment": {
+      "FLASK_ENV": "development",
+      "FLASK_APP": "./src/app"
     }
+  }
 }
