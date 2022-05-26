@@ -17,14 +17,13 @@ phases:
       - echo Building the Docker image...
       - cd api
       - docker build -t cbdb-images .
-      - docker tag cbdb-images:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag cbdb-images:latest $REPOSITORY_URI:latest
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images to the ECR repo
       - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
+      - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:latest > imageDetail.json
 artifacts:
   files:
     - imageDetail.json
