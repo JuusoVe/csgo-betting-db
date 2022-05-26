@@ -7,7 +7,7 @@ phases:
       - aws --version
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region eu-central-1 | docker login -u AWS --password-stdin 720230680132.dkr.ecr.eu-central-1.amazonaws.com
-      - REPOSITORY_URI=720230680132.dkr.ecr.eu-central-1.amazonaws.com/cbdb-image
+      - REPOSITORY_URI=720230680132.dkr.ecr.eu-central-1.amazonaws.com/cbdb-images
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
@@ -15,14 +15,13 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - cd api
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG 
+      - docker build -t cbdb-images .
+      - docker tag cbdb-images:latest $REPOSITORY_URI:latest 
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images to the ECR repo
       - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
 artifacts:
   files:
     - imageDetail.json
