@@ -22,6 +22,3 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker images to the ECR repo
       - docker push $REPOSITORY_URI:latest
-artifacts:
-  files:
-    - imageDetail.json
