@@ -1,0 +1,29 @@
+{
+  "taskDefinition": "cbdb:4",
+  "cluster": "cbdb-api-cluster",
+  "loadBalancers": [
+      {
+          "targetGroupArn": "arn:aws:elasticloadbalancing:eu-central-1:720230680132:targetgroup/cbdb-target-group-1/b63e316bf67dd92d",
+          "containerName": "cbdb-api-container",
+          "containerPort": 80
+      }
+  ],
+  "desiredCount": 1,
+  "launchType": "FARGATE",
+  "schedulingStrategy": "REPLICA",
+  "deploymentController": {
+      "type": "CODE_DEPLOY"
+  },
+  "networkConfiguration": {
+      "awsvpcConfiguration": {
+          "subnets": [
+              "subnet-0ba6c0ddee5dbc6b0",
+              "subnet-0f2910c1e7c2b82bc"
+          ],
+          "securityGroups": [
+              "sg-042d64db4a337ab6f"
+          ],
+          "assignPublicIp": "ENABLED"
+      }
+  }
+}
