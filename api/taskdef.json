@@ -10,8 +10,13 @@
               {
                   "hostPort": 80,
                   "protocol": "tcp",
-                  "containerPort": 5000
-              }
+                  "containerPort": 80
+              },
+              {
+                "hostPort": 5000,
+                "protocol": "tcp",
+                "containerPort": 5000
+            }
           ]
       }
   ],
