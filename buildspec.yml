@@ -22,7 +22,7 @@ phases:
       - echo Pushing the Docker images to the ECR repo
       - docker push $REPOSITORY_URI:latest
       - cd ..
-      - printf '[{"name":"cbdb-api-container","ImageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
+      - printf '[{"name":"cbdb-api-container","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json
