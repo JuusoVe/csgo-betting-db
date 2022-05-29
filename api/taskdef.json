@@ -11,13 +11,17 @@
                   "hostPort": 80,
                   "protocol": "tcp",
                   "containerPort": 80
-              },
-              {
-                "hostPort": 5000,
-                "protocol": "tcp",
-                "containerPort": 5000
+              }
+          ],
+          "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "cbdb-api-logs",
+                "awslogs-region": "eu-central-1",
+                "awslogs-stream-prefix": "cbdb-api-logs"
             }
-          ]
+         }
       }
   ],
   "requiresCompatibilities": [
