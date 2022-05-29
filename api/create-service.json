@@ -11,9 +11,6 @@
   "desiredCount": 1,
   "launchType": "FARGATE",
   "schedulingStrategy": "REPLICA",
-  "deploymentController": {
-      "type": "CODE_DEPLOY"
-  },
   "networkConfiguration": {
       "awsvpcConfiguration": {
           "subnets": [
