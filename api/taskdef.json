@@ -3,7 +3,7 @@
   "containerDefinitions": [
       {
           "name": "cbdb-api-container",
-          "image": "<IMAGE1_NAME>",
+          "image": "<IMAGE1>",
           "essential": true,
           "portMappings": [
               {
