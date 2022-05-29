@@ -1,8 +1,0 @@
-{
-  "containerName": "flask",
-  "containerPort": 5000,
-  "healthCheck": {
-    "successCodes": "200",
-    "intervalSeconds": 30
-  }
-}
