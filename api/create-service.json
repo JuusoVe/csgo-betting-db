@@ -1,5 +1,5 @@
 {
-  "taskDefinition": "cbdb:7",
+  "taskDefinition": "cbdb-family:1",
   "cluster": "cbdb-api-cluster",
   "loadBalancers": [
       {
