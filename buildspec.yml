@@ -6,7 +6,7 @@ phases:
     commands:
       - aws --version
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 720230680132.dkr.ecr.eu-central-1.amazonaws.com
+      - aws ecr get-login-password --region eu-central-1 | docker login -u AWS --password-stdin 720230680132.dkr.ecr.eu-central-1.amazonaws.com
       - REPOSITORY_URI=720230680132.dkr.ecr.eu-central-1.amazonaws.com/cbdb-images
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
@@ -22,7 +22,6 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker images to the ECR repo
       - docker push $REPOSITORY_URI:latest
-      # We are deploying a nested dir so we must change back to parent dir here
       - cd ..
       - printf '[{"name":"csgo-betting-db-api","ImageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
