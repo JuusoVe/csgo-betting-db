@@ -7,8 +7,8 @@ Resources:
         LoadBalancerInfo:
           ContainerName: "cbdb-api"
           ContainerPort: 80
-          NetworkConfiguration:
-            AwsvpcConfiguration:
-              Subnets: ["cbdb-vpc-subnet-public2-eu-central-1b", "cbdb-vpc-subnet-public1-eu-central-1a"]
-              SecurityGroups: ["default"]
-              AssignPublicIp: "ENABLED"
+          # NetworkConfiguration:
+          #   AwsvpcConfiguration:
+          #     Subnets: ["cbdb-vpc-subnet-public2-eu-central-1b", "cbdb-vpc-subnet-public1-eu-central-1a"]
+          #     SecurityGroups: ["default"]
+          #     AssignPublicIp: "ENABLED"
