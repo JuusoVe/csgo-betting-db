@@ -1,5 +1,5 @@
 {
-  "executionRoleArn": "arn:aws:iam::720230680132:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS",
+  "executionRoleArn": "arn:aws:iam::720230680132:role/ecsTaskExecutionRole",
   "containerDefinitions": [
       {
           "name": "cbdb-api-container",
