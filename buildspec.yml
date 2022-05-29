@@ -15,7 +15,7 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - cd api
-      - docker build -t cbdb-images .
+      - docker build -t cbdb-images . --no-cache
       - docker tag cbdb-images:latest $REPOSITORY_URI:latest
   post_build:
     commands:
