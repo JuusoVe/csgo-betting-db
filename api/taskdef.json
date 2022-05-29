@@ -16,10 +16,9 @@
           "logConfiguration": {
             "logDriver": "awslogs",
             "options": {
-                "awslogs-create-group": "true",
                 "awslogs-group": "cbdb-api-logs",
                 "awslogs-region": "eu-central-1",
-                "awslogs-stream-prefix": "cbdb-api-logs"
+                "awslogs-stream-prefix": "cbdb-api"
             }
          }
       }
