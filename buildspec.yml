@@ -22,7 +22,7 @@ phases:
       - echo Pushing the Docker images to the ECR repo
       - docker push $REPOSITORY_URI:latest
       - cd ..
-      - printf '{"ImageURI":"$REPOSITORY_URI:latest"}'  > imageDetail.json
+      - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:latest > imageDetail.json
 artifacts:
   files:
     - imageDetail.json
