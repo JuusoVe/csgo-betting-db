@@ -19,7 +19,10 @@ provider "aws" {
 }
 
 module "networking" {
-  source = "./modules/networking"
+  source          = "./modules/networking"
+  private_subnets = var.private_subnets
+  public_subnets  = var.public_subnets
+  db_subnets      = var.db_subnets
 }
 
 module "database" {
@@ -30,4 +33,18 @@ module "database" {
   depends_on = [
     module.networking
   ]
+}
+
+module "container-registry" {
+  source = "./modules/container-registry"
+}
+
+module "container-service" {
+  depends_on = [
+    module.networking
+  ]
+  source                      = "./modules/container-service"
+  private_subnets             = var.private_subnets
+  aws_alb_target_group_arn    = module.networking.aws_alb_target_group_arn
+  ecs_service_security_groups = [module.networking.ecs_service_security_groups]
 }
