@@ -5,5 +5,5 @@ output "vpc_security_group_id" {
 
 output "subnet_group_name" {
   description = "Subnet group name"
-  value       = aws_db_subnet_group.csgo-betting-db.name
+  value       = var.database_subnet_group_name
 }
