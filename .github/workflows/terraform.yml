@@ -65,6 +65,4 @@ jobs:
         run: exit 1
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        env:
-          TF_VAR_db_password: ${{ secrets.TF_VAR_db_password }}
         run: cd infra && terraform apply -auto-approve -input=false
