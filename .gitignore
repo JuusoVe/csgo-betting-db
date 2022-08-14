@@ -1,5 +1,7 @@
-.env
 __pycache__
 venv
 dev-queries
 requests
+
+.*
+!/.gitignore
