@@ -18,8 +18,9 @@ module "networking" {
 
 module "database" {
   source = "./modules/database"
-  vpc_id = module.networking.vpc_id
+  vpc_security_group_id = module.networking.vpc_security_group_id
   db_password = var.db_password
+  subnet_group_name = module.networking.subnet_group_name
   depends_on = [
     module.networking
   ]
