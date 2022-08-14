@@ -69,8 +69,8 @@ resource "aws_alb_listener" "https" {
   port              = 443
   protocol          = "HTTPS"
 
-  ssl_policy = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = var.alb_tls_cert_arn
+  ssl_policy      = "ELBSecurityPolicy-2016-08"
+  certificate_arn = var.alb_tls_cert_arn
 
   default_action {
     target_group_arn = aws_alb_target_group.cbdb-target-group.id
