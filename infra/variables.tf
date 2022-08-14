@@ -19,7 +19,7 @@ variable "db_password" {
 
 variable "region" {
   description = "AWS region to use"
-  default = "eu-central-1"
+  default     = "eu-central-1"
   type        = string
   sensitive   = false
 }

@@ -17,10 +17,10 @@ module "networking" {
 }
 
 module "database" {
-  source = "./modules/database"
+  source                = "./modules/database"
   vpc_security_group_id = module.networking.vpc_security_group_id
-  db_password = var.db_password
-  subnet_group_name = module.networking.subnet_group_name
+  db_password           = var.db_password
+  subnet_group_name     = module.networking.subnet_group_name
   depends_on = [
     module.networking
   ]
