@@ -1,4 +1,4 @@
-name: "Terraform to AWS"
+name: "Terraform -> Build -> Deploy"
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
 jobs:
   terraform:
     name: "Terraform"
+    concurrency: main
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,7 +37,6 @@ jobs:
         if: github.event_name == 'pull_request'
         run: cd infra && terraform plan -no-color -input=false
         continue-on-error: true
-
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
@@ -60,9 +60,42 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
+
       - name: Terraform Apply
+        id: apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: cd infra && terraform apply -auto-approve -input=false
+
+      - name: Terraform Apply Status
+        if: steps.apply.outcome == 'failure'
+        run: exit 1
+
+  build:
+    name: 'Docker Build and Push to ECR'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-central-1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: cbdb-container-registry
+        IMAGE_TAG: cbdb-api-image
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+  
