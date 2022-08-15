@@ -11,11 +11,19 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 3.0"
     }
+    tls = {
+      source = "hashicorp/tls"
+      version = "~> 4.0.1"
+    }
   }
 }
 
 provider "aws" {
   region = var.region
+}
+
+provider "tls" {
+  
 }
 
 module "networking" {
@@ -44,7 +52,7 @@ module "container-service" {
     module.networking
   ]
   source                      = "./modules/container-service"
-  private_subnets             = var.private_subnets
+  private_subnets             = module.networking.private_subnets
   aws_alb_target_group_arn    = module.networking.aws_alb_target_group_arn
   ecs_service_security_groups = [module.networking.ecs_service_security_groups]
 }

@@ -35,10 +35,4 @@ FLASK_ENV=development
 
 
 ## TODO
-- CI/CD Pipeline
-- Infra as code set up
-- All tests
-- Unibet fetching module
-- Scheduling
-- hltv_scraper module hosting
-- Web UI
+ - continue from loadbalancer https://engineering.finleap.com/posts/2020-02-20-ecs-fargate-terraform/

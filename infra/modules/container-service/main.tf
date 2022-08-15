@@ -11,7 +11,7 @@ resource "aws_ecs_task_definition" "cbdb-api" {
   execution_role_arn       = aws_iam_role.ecs_task_role.arn
   task_role_arn            = aws_iam_role.ecs_task_role.arn
   container_definitions = jsonencode([{
-    name        = "cbdb-api-container"
+    name        = var.api_container_name
     image       = "cbdb-api-image:latest"
     essential   = true
     environment = [] # Insert ENV variables here
@@ -41,7 +41,7 @@ resource "aws_ecs_service" "main" {
 
   load_balancer {
     target_group_arn = var.aws_alb_target_group_arn
-    container_name   = "cbdb-container"
+    container_name   = var.api_container_name
     container_port   = var.ecs_container_port
   }
 

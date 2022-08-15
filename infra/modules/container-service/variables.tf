@@ -14,3 +14,8 @@ variable "aws_alb_target_group_arn" {
 variable "ecs_service_security_groups" {
   description = "Security groups for the ECS service."
 }
+
+variable "api_container_name" {
+  description = "API container name"
+  default = "cbdb-api-container"
+}
