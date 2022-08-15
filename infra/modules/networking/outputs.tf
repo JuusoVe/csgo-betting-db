@@ -20,5 +20,5 @@ output "ecs_service_security_groups" {
 
 output "private_subnets" {
   description = "Private subets as terraform objects."
-  value = module.vpc.private_subnets
+  value       = module.vpc.private_subnets
 }

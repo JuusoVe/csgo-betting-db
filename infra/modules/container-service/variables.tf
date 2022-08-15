@@ -17,5 +17,5 @@ variable "ecs_service_security_groups" {
 
 variable "api_container_name" {
   description = "API container name"
-  default = "cbdb-api-container"
+  default     = "cbdb-api-container"
 }

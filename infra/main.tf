@@ -12,7 +12,7 @@ terraform {
       version = "~> 3.0"
     }
     tls = {
-      source = "hashicorp/tls"
+      source  = "hashicorp/tls"
       version = "~> 4.0.1"
     }
   }
@@ -23,7 +23,7 @@ provider "aws" {
 }
 
 provider "tls" {
-  
+
 }
 
 module "networking" {
