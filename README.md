@@ -35,4 +35,7 @@ FLASK_ENV=development
 
 
 ## TODO
- - continue from loadbalancer https://engineering.finleap.com/posts/2020-02-20-ecs-fargate-terraform/
+ - deploy
+ - split TF to static and dynamic
+ - deploy to dynamic
+ - run tests on dynamic
