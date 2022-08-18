@@ -93,7 +93,7 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Build, tag, and push image to Amazon ECR
+    - name: Build, tag, and push image to ECR
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -109,7 +109,7 @@ jobs:
       run: |
         aws ecs describe-task-definition --task-definition cbdb-api --query taskDefinition > task-definition.json
         
-    - name: Fill in the new image ID in the Amazon ECS task definition
+    - name: Fill in the new image ID in the ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
