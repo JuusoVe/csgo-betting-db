@@ -9,7 +9,6 @@ on:
 jobs:
   terraform:
     name: "Terraform"
-    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -76,7 +75,7 @@ jobs:
 
   build:
     name: 'Docker Build and Push to ECR'
-    concurrency: ci-${{ github.ref }}
+    needs: terraform
     runs-on: ubuntu-latest
     steps:
 
