@@ -23,7 +23,7 @@ resource "aws_ecs_task_definition" "cbdb-api" {
   }])
 }
 
-resource "aws_ecs_service" "cbdb-servic" {
+resource "aws_ecs_service" "cbdb-service" {
   name                               = "cbdb-service"
   cluster                            = aws_ecs_cluster.cbdb-cluster.id
   task_definition                    = aws_ecs_task_definition.cbdb-api.arn
@@ -169,7 +169,7 @@ resource "aws_iam_role_policy_attachment" "ecs-task-execution-role-policy-attach
 resource "aws_appautoscaling_target" "ecs_target" {
   max_capacity       = 4
   min_capacity       = 0
-  resource_id        = "service/${aws_ecs_cluster.cbdb-cluster.name}/${aws_ecs_service.main.name}"
+  resource_id        = "service/${aws_ecs_cluster.cbdb-cluster.name}/${aws_ecs_service.cbdb-service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 }
