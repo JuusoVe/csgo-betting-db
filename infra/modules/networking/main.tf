@@ -1,23 +1,76 @@
 data "aws_availability_zones" "available" {}
 
-module "vpc" {
-  source           = "terraform-aws-modules/vpc/aws"
-  version          = "3.14.2"
-  name             = "csgo-betting-db"
-  cidr             = "20.10.0.0/16"
-  azs              = var.availability_zones
-  private_subnets  = var.private_subnets
-  public_subnets   = var.public_subnets
-  database_subnets = var.db_subnets
+resource "aws_vpc" "main" {
+  cidr_block = "20.10.0.0/16"
+}
 
-  enable_dns_hostnames = true
-  enable_dns_support   = true
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+}
 
-  enable_nat_gateway     = true
-  single_nat_gateway     = true
-  one_nat_gateway_per_az = false
+#PRIVATE
 
-  database_subnet_group_name = var.database_subnet_group_name
+resource "aws_subnet" "private" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = element(var.private_subnets, count.index)
+  availability_zone = element(var.availability_zones, count.index)
+  count             = length(var.private_subnets)
+}
+
+resource "aws_nat_gateway" "main" {
+  count         = length(var.private_subnets)
+  allocation_id = element(aws_eip.nat.*.id, count.index)
+  subnet_id     = element(aws_subnet.public.*.id, count.index)
+  depends_on    = [aws_internet_gateway.main]
+}
+
+resource "aws_eip" "nat" {
+  count = length(var.private_subnets)
+  vpc   = true
+}
+
+resource "aws_route_table" "private" {
+  count  = length(var.private_subnets)
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_route" "private" {
+  count                  = length(compact(var.private_subnets))
+  route_table_id         = element(aws_route_table.private.*.id, count.index)
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = element(aws_nat_gateway.main.*.id, count.index)
+}
+
+resource "aws_route_table_association" "private" {
+  count          = length(var.private_subnets)
+  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  route_table_id = element(aws_route_table.private.*.id, count.index)
+}
+
+#PUBLIC
+
+resource "aws_subnet" "public" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = element(var.public_subnets, count.index)
+  availability_zone       = element(var.availability_zones, count.index)
+  count                   = length(var.public_subnets)
+  map_public_ip_on_launch = true
+}
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_route" "public" {
+  route_table_id         = aws_route_table.public.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.main.id
+}
+
+resource "aws_route_table_association" "public" {
+  count          = length(var.public_subnets)
+  subnet_id      = element(aws_subnet.public.*.id, count.index)
+  route_table_id = aws_route_table.public.id
 }
 
 # LOAD BALANCER
@@ -34,7 +87,7 @@ resource "aws_alb_target_group" "cbdb-target-group" {
   name        = "cbdb-targetgroup"
   port        = 80
   protocol    = "HTTP"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = aws_vpc.main.id
   target_type = "ip"
 
   health_check {
@@ -108,7 +161,7 @@ resource "aws_alb_listener" "https" {
 # SECURITY GROUPS
 resource "aws_security_group" "rds" {
   name   = "csgo-betting-db-rds"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.main.id
 
   ingress {
     from_port   = 5432
@@ -131,7 +184,7 @@ resource "aws_security_group" "rds" {
 
 resource "aws_security_group" "https-access-security-group" {
   name   = "https-access-security-group"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.main.id
 
   ingress {
     protocol         = "tcp"
@@ -159,13 +212,13 @@ resource "aws_security_group" "https-access-security-group" {
 }
 
 resource "aws_security_group" "ecs_tasks" {
-  name   = "tasks-access-security-group"
-  vpc_id = module.vpc.vpc_id
+  name   = "${var.name}-task-sg"
+  vpc_id = var.vpc_id
 
   ingress {
     protocol         = "tcp"
-    from_port        = var.ecs_container_port
-    to_port          = var.ecs_container_port
+    from_port        = var.container_port
+    to_port          = var.container_port
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
@@ -179,9 +232,9 @@ resource "aws_security_group" "ecs_tasks" {
   }
 }
 
-resource "aws_security_group" "cbdb-loadbalancer" {
-  name   = "cbdb-loadbalancer-security-group"
-  vpc_id = module.vpc.vpc_id
+resource "aws_security_group" "alb" {
+  name   = "${var.name}-alb-sg"
+  vpc_id = var.vpc_id
 
   ingress {
     protocol         = "tcp"

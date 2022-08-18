@@ -1,5 +1,5 @@
 output "vpc_security_group_id" {
-  description = "VPC id"
+  description = "VPC sg id"
   value       = aws_security_group.rds.id
 }
 
@@ -16,9 +16,4 @@ output "aws_alb_target_group_arn" {
 output "ecs_service_security_groups" {
   description = "Security group name for the ECS service"
   value       = aws_security_group.ecs_tasks.id
-}
-
-output "private_subnets" {
-  description = "Private subets as terraform objects."
-  value       = module.vpc.private_subnets
 }

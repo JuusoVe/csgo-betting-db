@@ -1,3 +1,8 @@
+variable "name" {
+  description = "Name to use as prefix or suffix for resources."
+  default     = "cbdb"
+}
+
 variable "private_subnets" {
   description = "List of private subnets."
   type        = list(string)
