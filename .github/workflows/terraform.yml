@@ -20,6 +20,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+          terraform_wrapper: false
 
       - name: Terraform Format
         id: fmt
@@ -71,14 +72,14 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: cd infra && terraform apply -auto-approve -input=false
 
-      - name: Terraform Apply Status
-        if: steps.apply.outcome == 'failure'
-        run: exit 1
-
       - name: Terraform output
         run: |
           output=$(terraform output test_output)
           echo $output
+
+      - name: Terraform Apply Status
+        if: steps.apply.outcome == 'failure'
+        run: exit 1
 
   build:
     name: 'Docker Build and Push to ECR'
@@ -88,6 +89,11 @@ jobs:
 
     - name: Check out code
       uses: actions/checkout@v2
+
+    - name: Terraform output
+      run: |
+        output=$(terraform output test_output)
+        echo $output
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
