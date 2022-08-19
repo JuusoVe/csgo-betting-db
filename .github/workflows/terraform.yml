@@ -11,7 +11,8 @@ jobs:
     name: "Terraform"
     runs-on: ubuntu-latest
     outputs: 
-      db-connection-string: ${{ steps.apply.outputs.test }}
+      db-connection-string: ${{ steps.apply.outputs.test_output }}
+      test_output: ${{ steps.apply.outputs.test_output }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -70,12 +71,11 @@ jobs:
       - name: Terraform Apply
         id: apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: cd infra && terraform apply -auto-approve -input=false
-
-      - name: Terraform output
         run: |
-          output=$(terraform output test_output)
-          echo $output
+          cd infra 
+          terraform apply -auto-approve -input=false
+          terraform output
+
 
       - name: Terraform Apply Status
         if: steps.apply.outcome == 'failure'
