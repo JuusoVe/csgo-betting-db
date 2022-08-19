@@ -1,7 +1,7 @@
 FROM python:3.8-alpine
 
 # Expose http
-EXPOSE 80
+EXPOSE 80/tcp
 
 # Set the working directory in the container
 WORKDIR /app
