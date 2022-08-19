@@ -46,3 +46,8 @@ variable "ecs_container_port" {
   type        = number
   default     = 5000
 }
+
+variable "name" {
+  description = "Name of the app to use as prefix for resource-names"
+  default     = "cbdb"
+}

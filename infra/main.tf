@@ -57,5 +57,6 @@ module "container-service" {
   aws_alb_target_group_arn    = module.networking.aws_alb_target_group_arn
   ecs_service_security_groups = [module.networking.ecs_service_security_groups]
   ecs_container_port          = var.ecs_container_port
+  name                        = var.name
 
 }

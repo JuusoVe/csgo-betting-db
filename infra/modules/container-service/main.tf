@@ -3,7 +3,7 @@ resource "aws_ecs_cluster" "cbdb-cluster" {
 }
 
 resource "aws_ecs_task_definition" "cbdb-api" {
-  family                   = "cbdb-api"
+  family                   = "${var.name}-api"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 256
@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "cbdb-api" {
   task_role_arn            = aws_iam_role.ecs_task_role.arn
   container_definitions = jsonencode([{
     name        = var.api_container_name
-    image       = "cbdb-api-image:latest"
+    image       = "${var.name}-api-image:latest"
     essential   = true
     environment = [] # Insert ENV variables here
     portMappings = [{

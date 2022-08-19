@@ -1,3 +1,7 @@
+variable "name" {
+
+}
+
 variable "ecs_container_port" {
   description = "Port to the container."
 }
