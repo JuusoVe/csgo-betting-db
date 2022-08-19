@@ -27,10 +27,11 @@ provider "tls" {
 }
 
 module "networking" {
-  source          = "./modules/networking"
-  private_subnets = var.private_subnets
-  public_subnets  = var.public_subnets
-  db_subnets      = var.db_subnets
+  source             = "./modules/networking"
+  private_subnets    = var.private_subnets
+  public_subnets     = var.public_subnets
+  db_subnets         = var.db_subnets
+  ecs_container_port = var.ecs_container_port
 }
 
 module "database" {
@@ -55,4 +56,6 @@ module "container-service" {
   private_subnets             = module.networking.private_subnets
   aws_alb_target_group_arn    = module.networking.aws_alb_target_group_arn
   ecs_service_security_groups = [module.networking.ecs_service_security_groups]
+  ecs_container_port          = var.ecs_container_port
+
 }
