@@ -87,16 +87,18 @@ resource "aws_db_subnet_group" "main" {
 }
 
 # LOAD BALANCER
-resource "aws_lb" "alb" {
-  name                       = "${var.name}-loadbalancer"
-  internal                   = false
-  load_balancer_type         = "application"
-  security_groups            = [aws_security_group.alb.id]
-  subnets                    = [for subnet in aws_subnet.public : subnet.id]
+resource "aws_lb" "main" {
+  name               = "${var.name}-loadbalancer"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.alb.id]
+  subnets            = [for subnet in aws_subnet.public : subnet.id]
+
   enable_deletion_protection = false
 }
 
-resource "aws_alb_target_group" "cbdb-target-group" {
+
+resource "aws_alb_target_group" "main" {
   name        = "${var.name}-targetgroup"
   port        = 80
   protocol    = "HTTP"
@@ -115,7 +117,7 @@ resource "aws_alb_target_group" "cbdb-target-group" {
 }
 
 resource "aws_alb_listener" "http" {
-  load_balancer_arn = aws_lb.alb.arn
+  load_balancer_arn = aws_lb.main
   port              = 80
   protocol          = "HTTP"
 
@@ -157,7 +159,7 @@ resource "aws_acm_certificate" "cert" {
 }
 
 resource "aws_alb_listener" "https" {
-  load_balancer_arn = aws_lb.alb.id
+  load_balancer_arn = aws_lb.main
   port              = 443
   protocol          = "HTTPS"
 
@@ -165,7 +167,7 @@ resource "aws_alb_listener" "https" {
   certificate_arn = aws_acm_certificate.cert.arn
 
   default_action {
-    target_group_arn = aws_alb_target_group.cbdb-target-group.id
+    target_group_arn = aws_alb_target_group.main.arn
     type             = "forward"
   }
 }
