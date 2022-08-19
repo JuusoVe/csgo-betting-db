@@ -1,10 +1,9 @@
 variable "ecs_container_port" {
-  description = "Port the"
-  default     = 80
+  description = "Port to the container."
 }
 
 variable "private_subnets" {
-  description = "List of subnet IDs"
+  description = "List of private subnets"
 }
 
 variable "aws_alb_target_group_arn" {

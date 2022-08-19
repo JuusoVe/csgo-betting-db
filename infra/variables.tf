@@ -40,3 +40,9 @@ variable "db_subnets" {
   type        = set(string)
   default     = ["20.10.21.0/24", "20.10.22.0/24", "20.10.23.0/24"]
 }
+
+variable "ecs_container_port" {
+  description = "ECS contariner port, needed in networking and container-service."
+  type        = number
+  default     = 5000
+}

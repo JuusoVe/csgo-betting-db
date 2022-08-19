@@ -35,7 +35,7 @@ resource "aws_ecs_service" "cbdb-service" {
 
   network_configuration {
     security_groups  = var.ecs_service_security_groups
-    subnets          = var.private_subnets
+    subnets          = [for subnet in var.private_subnets : subnet.id]
     assign_public_ip = true
   }
 

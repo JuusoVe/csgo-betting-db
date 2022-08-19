@@ -1,7 +1,9 @@
 data "aws_availability_zones" "available" {}
 
 resource "aws_vpc" "main" {
-  cidr_block = "20.10.0.0/16"
+  cidr_block           = "20.10.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 }
 
 resource "aws_internet_gateway" "main" {
@@ -73,18 +75,29 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
+# DB
+resource "aws_db_subnet_group" "main" {
+  name = var.database_subnet_group_name
+  subnet_ids = concat([for subnet in aws_subnet.public : subnet.id],
+  [for subnet in aws_subnet.private : subnet.id])
+
+  tags = {
+    Name = "DB subnet group"
+  }
+}
+
 # LOAD BALANCER
-resource "aws_lb" "cbdb-loadbalancer" {
-  name                       = "cbdb-loadbalancer"
+resource "aws_lb" "alb" {
+  name                       = "${var.name}-loadbalancer"
   internal                   = false
   load_balancer_type         = "application"
-  security_groups            = [aws_security_group.cbdb-loadbalancer.id]
-  subnets                    = module.vpc.public_subnets
+  security_groups            = [aws_security_group.alb.id]
+  subnets                    = [for subnet in aws_subnet.public : subnet.id]
   enable_deletion_protection = false
 }
 
 resource "aws_alb_target_group" "cbdb-target-group" {
-  name        = "cbdb-targetgroup"
+  name        = "${var.name}-targetgroup"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
@@ -102,7 +115,7 @@ resource "aws_alb_target_group" "cbdb-target-group" {
 }
 
 resource "aws_alb_listener" "http" {
-  load_balancer_arn = aws_lb.cbdb-loadbalancer.arn
+  load_balancer_arn = aws_lb.alb.arn
   port              = 80
   protocol          = "HTTP"
 
@@ -144,7 +157,7 @@ resource "aws_acm_certificate" "cert" {
 }
 
 resource "aws_alb_listener" "https" {
-  load_balancer_arn = aws_lb.cbdb-loadbalancer.id
+  load_balancer_arn = aws_lb.alb.id
   port              = 443
   protocol          = "HTTPS"
 
@@ -213,12 +226,12 @@ resource "aws_security_group" "https-access-security-group" {
 
 resource "aws_security_group" "ecs_tasks" {
   name   = "${var.name}-task-sg"
-  vpc_id = var.vpc_id
+  vpc_id = aws_vpc.main.id
 
   ingress {
     protocol         = "tcp"
-    from_port        = var.container_port
-    to_port          = var.container_port
+    from_port        = var.ecs_container_port
+    to_port          = var.ecs_container_port
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
@@ -234,7 +247,7 @@ resource "aws_security_group" "ecs_tasks" {
 
 resource "aws_security_group" "alb" {
   name   = "${var.name}-alb-sg"
-  vpc_id = var.vpc_id
+  vpc_id = aws_vpc.main.id
 
   ingress {
     protocol         = "tcp"

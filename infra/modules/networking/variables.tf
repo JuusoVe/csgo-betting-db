@@ -25,7 +25,6 @@ variable "availability_zones" {
 
 variable "ecs_container_port" {
   description = "Port to the actual application"
-  default     = 80
 }
 
 variable "database_subnet_group_name" {

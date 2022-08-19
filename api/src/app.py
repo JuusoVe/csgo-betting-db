@@ -30,5 +30,5 @@ if __name__ == "__main__":
     app = create_app()
     setup_database(app)
     migrate(app, db)
-    app.run(host="0.0.0.0", port=80, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
     print("Running flask app.")

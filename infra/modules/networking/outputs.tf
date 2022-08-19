@@ -17,3 +17,8 @@ output "ecs_service_security_groups" {
   description = "Security group name for the ECS service"
   value       = aws_security_group.ecs_tasks.id
 }
+
+output "private_subnets" {
+  description = "List of private subnets."
+  value       = aws_subnet.private
+}
