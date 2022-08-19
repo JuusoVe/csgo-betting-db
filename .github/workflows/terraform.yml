@@ -73,6 +73,11 @@ jobs:
         if: steps.apply.outcome == 'failure'
         run: exit 1
 
+      - name: Terraform output
+        run: |
+          output=$(terraform output test_output)
+          echo $output
+
   build:
     name: 'Docker Build and Push to ECR'
     needs: terraform
