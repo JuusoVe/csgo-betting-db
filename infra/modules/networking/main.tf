@@ -26,6 +26,7 @@ resource "aws_nat_gateway" "main" {
   depends_on    = [aws_internet_gateway.main]
 }
 
+
 resource "aws_eip" "nat" {
   count = length(var.private_subnets)
   vpc   = true
