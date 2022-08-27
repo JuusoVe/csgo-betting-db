@@ -1,7 +1,7 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "This consists of a [PostgreSQL](https://www.postgresql.org/) database and [Flask app](https://palletsprojects.com/p/flask/) that serves as the entrypoint to the database and manages the data model.",
+  "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
