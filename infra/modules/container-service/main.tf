@@ -45,9 +45,9 @@ resource "aws_ecs_service" "cbdb-service" {
     container_port   = var.ecs_container_port
   }
 
-  lifecycle {
-    ignore_changes = [task_definition, desired_count]
-  }
+  # lifecycle {
+  #   ignore_changes = [task_definition, desired_count]
+  # }
 }
 
 resource "aws_iam_role" "ecs_task_role" {
